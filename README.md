@@ -9,11 +9,20 @@ JDK (version openjdk 17.0.7)
 - displaying track information
 - implementing keyboard shortcuts.
 
+## Clone SSH
+```bash 
+git clone git@github.com:HaseebH-Khan/music_player.git
+```
+
 ## Compile
-`javac -d bin MusicPlayer.java`
+```bash
+javac -d bin MusicPlayer.java
+```
 
 ## Run
-`java -cp bin MusicPlayer`
+```bash 
+java -cp bin MusicPlayer
+```
 
 ## References
 [JAVA Sound API Docs](https://docs.oracle.com/en/java/javase/17/docs/api/java.desktop/javax/sound/sampled/package-summary.html)

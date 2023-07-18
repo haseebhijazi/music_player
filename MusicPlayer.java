@@ -17,18 +17,18 @@ public class MusicPlayer extends JFrame {
     private JButton stopButton;
     private JButton nextButton;
     private JButton previousButton;
-    private JButton addButton; // New button for adding songs
+    private JButton addButton;
     private JSlider progressSlider;
     private JLabel trackInfoLabel;
     private Clip clip;
     private boolean isPaused;
-    private boolean isPlaying; // New flag to track playing state
+    private boolean isPlaying; 
 
     public MusicPlayer() {
         playlist = new ArrayList<>();
         currentTrackIndex = 0;
         isPaused = false;
-        isPlaying = false; // Initialize flag
+        isPlaying = false;
 
         // Create GUI components
         playButton = new JButton("Play");
@@ -36,7 +36,7 @@ public class MusicPlayer extends JFrame {
         stopButton = new JButton("Stop");
         nextButton = new JButton("Next");
         previousButton = new JButton("Previous");
-        addButton = new JButton("Add"); // New button for adding songs
+        addButton = new JButton("Add");
         progressSlider = new JSlider(0, 100);
         trackInfoLabel = new JLabel();
 
@@ -48,7 +48,7 @@ public class MusicPlayer extends JFrame {
         buttonPanel.add(pauseButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(nextButton);
-        buttonPanel.add(addButton); // Add the new button to the panel
+        buttonPanel.add(addButton); 
         add(buttonPanel, BorderLayout.CENTER);
         add(progressSlider, BorderLayout.SOUTH);
         add(trackInfoLabel, BorderLayout.NORTH);
@@ -201,6 +201,12 @@ public class MusicPlayer extends JFrame {
 
     private void updateGUI(MusicTrack currentTrack) {
         trackInfoLabel.setText("Now playing: " + currentTrack.getTitle() + " - " + currentTrack.getArtist());
+        trackInfoLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        trackInfoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        trackInfoLabel.setBackground(Color.LIGHT_GRAY);
+        trackInfoLabel.setOpaque(true); 
+        trackInfoLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        trackInfoLabel.setText("Now playing: " + currentTrack.getTitle() + " | Artist: " + currentTrack.getArtist());
         playButton.setEnabled(!isPaused);
         pauseButton.setEnabled(isPaused);
         stopButton.setEnabled(true);
