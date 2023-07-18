@@ -11,6 +11,9 @@ import javax.swing.event.ChangeListener;
 
 public class MusicPlayer extends JFrame {
     private List<MusicTrack> playlist;
+    private JList<String> playlistList;
+    private JPanel playlistPanel;
+    private DefaultListModel<String> playlistListModel;
     private int currentTrackIndex;
     private JButton playButton;
     private JButton pauseButton;
@@ -39,17 +42,28 @@ public class MusicPlayer extends JFrame {
         addButton = new JButton("Add");
         progressSlider = new JSlider(0, 100);
         trackInfoLabel = new JLabel();
+        playlistListModel = new DefaultListModel<>();
+        playlistList = new JList<>(playlistListModel);
+
+        playlistPanel = new JPanel(new BorderLayout());
+        playlistPanel.add(new JScrollPane(playlistList), BorderLayout.CENTER);
+
 
         // Set up the layout
         setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(previousButton);
         buttonPanel.add(playButton);
         buttonPanel.add(pauseButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(nextButton);
         buttonPanel.add(addButton); 
-        add(buttonPanel, BorderLayout.CENTER);
+        JPanel playlistPanel = new JPanel(new BorderLayout());
+        playlistPanel.add(new JScrollPane(playlistList), BorderLayout.CENTER);
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(buttonPanel, BorderLayout.NORTH);
+        centerPanel.add(playlistPanel, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER); // buttons and playlist
         add(progressSlider, BorderLayout.SOUTH);
         add(trackInfoLabel, BorderLayout.NORTH);
 
@@ -199,6 +213,13 @@ public class MusicPlayer extends JFrame {
         }
     }
 
+     private void updatePlaylistList() {
+        playlistListModel.clear();
+        for (MusicTrack track : playlist) {
+            playlistListModel.addElement(track.getTitle());
+        }
+    }
+
     private void updateGUI(MusicTrack currentTrack) {
         trackInfoLabel.setText("Now playing: " + currentTrack.getTitle() + " - " + currentTrack.getArtist());
         trackInfoLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -206,10 +227,18 @@ public class MusicPlayer extends JFrame {
         trackInfoLabel.setBackground(Color.LIGHT_GRAY);
         trackInfoLabel.setOpaque(true); 
         trackInfoLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        
+        playlistPanel.setBackground(Color.WHITE); // Set background color of the playlistPanel
+        playlistPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Set a border for the playlistPanel
+
+        playlistList.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font and font size of the playlist items
+        playlistList.setSelectionBackground(Color.GRAY); 
+        
         trackInfoLabel.setText("Now playing: " + currentTrack.getTitle() + " | Artist: " + currentTrack.getArtist());
         playButton.setEnabled(!isPaused);
         pauseButton.setEnabled(isPaused);
         stopButton.setEnabled(true);
+        updatePlaylistList();
     }
 
     private void startProgressSliderUpdateThread() {
